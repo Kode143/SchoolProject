@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const noticeSchema = new mongoose.Schema({
+  title: { type: String, required: true },
   noticeType: {
     type: String,
     enum: ['text', 'image'],
@@ -13,10 +14,7 @@ const noticeSchema = new mongoose.Schema({
     },
   },
   imageNotice: {
-    type: {
-      data: Buffer,
-      contentType: String,
-    },
+    type: [String], // Change the type to an array of strings
     required: function () {
       return this.noticeType === 'image';
     },
@@ -27,6 +25,6 @@ const noticeSchema = new mongoose.Schema({
   },
 });
 
-const Notice = mongoose.model('Notice', noticeSchema);
+const Notice = mongoose.models.Notice || mongoose.model('Notice', noticeSchema);
 
 module.exports = Notice;

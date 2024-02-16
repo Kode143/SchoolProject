@@ -24,7 +24,7 @@ export default function DeleteModal({ image, onDelete }) {
     <>
       <button
         onClick={openModal}
-        className="bg-red-700 text-white px-4 py-2 cursor-pointer w-full flex items-center gap-1"
+        className="bg-red-600 text-white px-4 py-2 cursor-pointer w-full flex items-center gap-1 hover:bg-red-800"
       >
         <TrashIcon className="w-4 h-4" />
         Delete

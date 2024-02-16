@@ -32,28 +32,29 @@ async function createEvent(ev){
 
 } 
 
-async function uploadImage(e) {
+const uploadImage = async (e) => {
    e.preventDefault();
-   const file = e.target?.files[0]; // Get the first selected file
+   const file = e.target?.files[0];
    if (file) {
-      setIsUploading(true);
-      const data = new FormData();
-      data.append('file', file);
-      try {
-         const res = await axios.post('/api/upload', data);
-         if (res.data && Array.isArray(res.data.uploads) && res.data.uploads.length > 0) {
-            const secureUrl = res.data.uploads[0].secure_url; // Get the secure_url of the first upload
-            setImages(oldImages => [...oldImages, secureUrl]);
-         } else {
-            console.error('secure_url property is missing or undefined in the response:', res.data);
-         }
-      } catch (error) {
-         console.error('Error uploading image:', error);
-      }
+     setIsUploading(true);
+     const data = new FormData();
+     data.append('file', file);
+     try {
+       const res = await axios.post('/api/upload', data);
+       if (res.data && Array.isArray(res.data.uploads) && res.data.uploads.length > 0) {
+         const secureUrl = res.data.uploads[0].secure_url;
+         setImages([secureUrl]); // Replace the images array with the new secure URL
+       } else {
+         console.error('secure_url property is missing or undefined in the response:', res.data);
+       }
+     } catch (error) {
+       setError('Error uploading image. Please try again.');
+       console.error('Error uploading image:', error);
+     }
+     setIsUploading(false);
    }
-   setIsUploading(false);
-}
-
+ };
+ 
   
  
 

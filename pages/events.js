@@ -58,7 +58,7 @@ const Events = () => {
                 <div className='mt-2 bg-blue-500 w-9/12 rounded-md p-2 '>Date : {formatDate(event.date)}</div>
                 <div className="w-20 mt-4">
                   <DeleteEvent 
-                    eventId={event._id} eventTitle={event.title}
+                    eventId={event._id} eventTitle={event.title} eventImageUrl={event.images} 
                   />
                 </div>
               </div>
