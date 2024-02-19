@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import axios from "axios";
-import Spinner from './Spinner';
-import { UploadIcon } from './Icons';
+import Spinner from '../Spinner';
+import { UploadIcon } from '../Icons';
 import { useRouter } from 'next/router';
 
 const NoticeForm = () => {
   const [title, setTitle] = useState('');
   const [noticeType, setNoticeType] = useState('text');
   const [textNotice, setTextNotice] = useState('');
-  const [imageNotice, setImageNotice] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [images, setImages] = useState([]);
+
   
   const [modalOpen, setModalOpen] = useState(false); // State to control modal visibility
 
@@ -36,42 +37,50 @@ const NoticeForm = () => {
       try {
         const res = await axios.post('/api/upload', data);
         if (res.data && Array.isArray(res.data.uploads) && res.data.uploads.length > 0) {
-          const secureUrls = res.data.uploads.map(upload => upload.secure_url);
-          setImageNotice(secureUrls);
+          const uploadedImage = res.data.uploads[0];
+          const { secure_url, public_id } = uploadedImage;
+          // Update images state to include both public_id and secure_url
+          setImages([...images, { secure_url, public_id }]);
         } else {
-          console.error('No uploads or invalid response:', res.data);
+          console.error('secure_url property is missing or undefined in the response:', res.data);
         }
       } catch (error) {
+        setError('Error uploading image. Please try again.');
         console.error('Error uploading image:', error);
-      } finally {
-        setIsUploading(false);
       }
+      setIsUploading(false);
     }
   };
   
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  async function handleSubmit(ev) {
+    ev.preventDefault();
+    if (!title.trim()) {
+      // Display an error message indicating that the notice title is required
+      alert('Notice title is required');
+      return;
+    }
+  
+    // Map the images array to include only secure_url and public_id properties
+    const formattedImages = images.map(image => ({
+      secure_url: image.secure_url,
+      public_id: image.public_id
+    }));
+  
+    const data = { title, noticeType, images: formattedImages, textNotice };
+    console.log(formattedImages);
+  
     try {
-      // Send notice data to the API endpoint
-      const response = await axios.post('/api/notices', {
-        title,
-        noticeType,
-        textNotice,
-        imageNotice,
-      });
-      console.log('Notice created:', response.data);
+      await axios.post('/api/notices', data);
+      closeModal(true);
+      router.reload();
     } catch (error) {
-      console.error('Error creating notice:', error);
+      console.error('Error creating event:', error);
+      // Handle error appropriately, e.g., display an error message to the user
     }
-    
-      // router.reload();
   };
   
-
-
-
+  
+  
   return (
     <>
       <button onClick={openModal} className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-800">
@@ -117,9 +126,9 @@ const NoticeForm = () => {
               ) : (
                 <>
         <div className='mb-2 flex flex-wrap gap-1'>
-        {!!Array.isArray(imageNotice) && imageNotice.length > 0 && imageNotice.map((secure_url, index) => (
-  <div key={index} className='w-72 h-48 flex justify-center items-center bg-gray-400 rounded-lg hover:bg-gray-700 mr-2 mb-2'>
-    <img src={secure_url} alt={`Image ${index}`} className='w-full h-full object-cover'  />
+          {!!images?.length && images.map((image, index) => (
+  <div key={index} className='w-20 h-20 flex justify-center items-center bg-gray-400 rounded-lg hover:bg-gray-700 mr-2 mb-2'>
+    <img src={image.secure_url} alt={`Image ${index}`} className='w-full h-full object-cover' />
   </div>
 ))}
 

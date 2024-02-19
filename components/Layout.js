@@ -29,7 +29,10 @@ export default function Layout({children}) {
 
   return (
     <div className="bg-gray-300 min-h-screen flex">
+      <div className="min-w-48"> 
       <Nav />
+      </div>
+  
 <div className="bg-white flex-grow  mt-3 rounded-lg p-4 me-5 mb-3"> 
 {children}
 </div>

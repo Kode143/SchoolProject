@@ -5,14 +5,14 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     await mongooseConnect();
     try {
-      const { title, noticeType, textNotice, imageNotice } = req.body;
+      const { title, noticeType, textNotice, images} = req.body;
 
       // Create a new notice instance
       const newNotice = new Notice({
         title,
         noticeType,
         textNotice,
-        imageNotice,
+        images,
       });
 
       // Save the notice to the database
@@ -35,8 +35,16 @@ export default async function handler(req, res) {
   } else if (req.method === 'DELETE') {
     await mongooseConnect();
     try {
-      const { id } = req.body;
-      await Notice.findByIdAndDelete(id);
+      const { id } = req.query; // Use req.query to get the notice ID from the URL query parameter
+      const deletedNotice = await Notice.findByIdAndDelete(id);
+      
+      if (!deletedNotice) {
+        return res.status(404).json({ success: false, error: 'Notice not found' });
+      }
+      
+      // Delete the images associated with the notice from Cloudinary
+      // Implement this part based on your Cloudinary integration
+      
       res.status(200).json({ success: true, message: 'Notice deleted successfully' });
     } catch (error) {
       console.error('Error deleting notice:', error);

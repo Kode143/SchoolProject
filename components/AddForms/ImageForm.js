@@ -1,11 +1,11 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
-import PhotoCard from "./PhotoCard";
-import { UploadIcon } from "./Icons";
-import Spinner from "./Spinner";
+import PhotoCard from "../PhotoCard";
+import { UploadIcon } from "../Icons";
+import Spinner from "../Spinner";
 import { useRouter } from "next/router";
 
-const UploadForm = () => {
+const ImageForm = () => {
   const formRef = useRef();
   const [files, setFiles] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -148,4 +148,4 @@ const UploadForm = () => {
   
 }
 
-export default UploadForm;
+export default ImageForm;

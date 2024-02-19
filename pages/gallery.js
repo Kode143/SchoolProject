@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
-import AddPhotos from '@/components/AddPhotos';
+
 import axios from 'axios';
 import ImagePreviewModal from '@/components/ImagePreviewModal';
-import DeleteModal from '@/components/DeleteModal';
+
 import Image from 'next/image';
+import DeleteImages from '@/components/DeleteModals/DeleteImages';
+import ImageForm from '@/components/AddForms/ImageForm';
 
 export default function PhotoGallery() {
   const [images, setImages] = useState([]);
@@ -47,7 +49,7 @@ export default function PhotoGallery() {
         <div className='ms-2'>
       <div>
         <div className='flex'>
-       <AddPhotos />
+       <ImageForm />
           </div>
         <div className="mt-8 grid grid-flow-row grid-cols-10 gap-2">
         {images.map((image, index) => (
@@ -60,7 +62,7 @@ export default function PhotoGallery() {
       width={100} height={100}
     />
     <div className='w-full'>
-      <DeleteModal image={image} onDelete={handleDelete} /> 
+      <DeleteImages image={image} onDelete={handleDelete} /> 
     </div>
   </div>
 ))}

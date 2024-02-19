@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AdminIcon, DashboardIcon, EventIcon, MessageInIcon, NoticeIcon, PhotoIcon, SettingIcon, SliderIcon, VideoIcon } from "./Icons";
+import { AdminIcon, ArticleIcon, DashboardIcon, EventIcon, MessageInIcon, NoticeIcon, PhotoIcon, SettingIcon, SliderIcon,} from "./Icons";
 import { useRouter } from "next/router";
 
 export default function Nav(){
@@ -61,12 +61,23 @@ export default function Nav(){
                 </span>
             </Link>
 
+            <Link href={'/articles'} className={pathname.includes('/articles') ? activeLink : inactiveLink }>
+                <ArticleIcon className='h-8 w-8' />
+                <span>
+                    Aricles
+                </span>
+            </Link>
+
+
+
             <Link href={'/settings'} className={pathname.includes('/settings') ? activeLink : inactiveLink }>
                 <SettingIcon className='h-8 w-8' />
                 <span>
                     Settings
                 </span>
             </Link>
+
+
             </nav>
         </aside>
     )

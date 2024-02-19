@@ -1,5 +1,6 @@
-import { Image } from "@/models/Image";
+
 import { mongooseConnect } from "@/lib/mongoose";
+import { Slider } from "@/models/slider";
 import { isAdminRequest } from "@/pages/api/auth/[...nextauth]";
 import Cors from 'cors';
 
@@ -25,7 +26,7 @@ export default async function handle(req, res) {
   if (method === 'GET') {
     try {
         // Retrieve images from MongoDB
-        const images = await Image.find();
+        const images = await Slider.find();
 
         // Check if images exist
         if (!images || images.length === 0) {
@@ -57,8 +58,8 @@ export default async function handle(req, res) {
         }));
         // Create new image documents in MongoDB
        
-        const createdImages = await Image.create(imagesToSave);
-     
+        const createdImages = await Slider.create(imagesToSave);
+    
 
         res.status(201).json(createdImages);
     } catch (error) {
@@ -72,13 +73,13 @@ export default async function handle(req, res) {
 
 if (method === 'DELETE') {
   try {
-    const { id } = req.query; 
+    const { id } = req.query;
 
     if (!id) {
       return res.status(400).json({ error: 'Missing image ID' });
     }
 
-    const deletedImage = await Image.deleteOne({ _id: id });
+    const deletedImage = await Slider.deleteOne({ _id: id });
 
     if (deletedImage.deletedCount === 0) {
       return res.status(404).json({ error: 'Image not found' });

@@ -5,11 +5,10 @@ const ImageSchema = new Schema({
   public_id: { type: String, required: true }
 });
 
-const EventSchema = new Schema({
+const ArticleSchema = new Schema({
   title: { type: String, required: true },
-  date: { type: Date, required: true},
   images: [ImageSchema], 
   description:{ type: String, required: true },
 });
 
-export const Event = models.Event || model('Event', EventSchema);
+export const Article = models.Article || model('Article', ArticleSchema);

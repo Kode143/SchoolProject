@@ -1,22 +1,25 @@
-// DeleteModal.js
-
 import React, { useState } from 'react';
-import { TrashIcon } from './Icons';
+import { TrashIcon } from '../Icons';
 import axios from 'axios';
+import RingLoader from '../RingLoader'; // Assuming you have a RingLoader component
 
-export default function DeleteModal({ image, onDelete }) {
+export default function DeleteImages({ image, onDelete }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
   const deleteImage = async () => {
     try {
+      setLoading(true); // Set loading state to true when deletion starts
       await axios.delete(`/api/delete?id=${image._id}&public_id=${image.public_id}`);
       closeModal();
       onDelete(image._id);
     } catch (error) {
       console.error('Error deleting image:', error);
+    } finally {
+      setLoading(false); // Set loading state to false when deletion is complete or failed
     }
   };
 
@@ -44,18 +47,24 @@ export default function DeleteModal({ image, onDelete }) {
             </div>
 
             <div className="mt-4 flex gap-24 justify-center">
-              <button
-                onClick={closeModal}
-                className="bg-green-700 hover-bg-gray-400 px-4 py-2 rounded-md mr-2"
-              >
-                No
-              </button>
-              <button
-                className="bg-red-700 text-white px-4 py-2 rounded-md"
-                onClick={deleteImage}
-              >
-                Yes
-              </button>
+              {!loading && (
+                <>
+                  <button
+                    onClick={closeModal}
+                    className="bg-green-700 hover:bg-gray-400 px-4 py-2 rounded-md mr-2"
+                  >
+                    No
+                  </button>
+                  <button
+                    className="bg-red-700 text-white px-4 py-2 rounded-md"
+                    onClick={deleteImage}
+                  >
+                    Yes
+                  </button>
+                </>
+              )}
+
+              {loading && <RingLoader />} {/* Render RingLoader if in loading state */}
             </div>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import Dashboard from "@/components/Dashboard";
 import Layout from "@/components/Layout";
 import { useSession } from "next-auth/react";
 
@@ -5,6 +6,8 @@ export default function Home() {
   const{data: session} = useSession();
 
   return <Layout>
+
+  <div className="flex flex-col ">
   <div className="flex justify-between">
   <h1>
   Welcome, <b> {session?.user?.name} </b>
@@ -14,8 +17,11 @@ export default function Home() {
     <span className="py-1 px-2">
     {session?.user?.name}
     </span>
-  
   </div>
+  </div>
+ <div>
+  <Dashboard />
+ </div>
   </div>
   </Layout>
 }

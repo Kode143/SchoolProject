@@ -13,12 +13,12 @@ const noticeSchema = new mongoose.Schema({
       return this.noticeType === 'text';
     },
   },
-  imageNotice: {
-    type: [String], // Change the type to an array of strings
-    required: function () {
-      return this.noticeType === 'image';
-    },
-  },
+  images: [
+    {
+      public_id: { type: String }, // Public ID of the image
+      secure_url: { type: String }, // Secure URL of the image
+    }
+  ],
   date: {
     type: Date,
     default: Date.now,
