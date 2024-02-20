@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { ArticleIcon2, EyeIcon, ImageIcon } from './Icons';
+import { ArticleIcon2, EyeIcon, GalleryIcon, ImageIcon, KidsIcon } from './Icons';
 import UserGraph from './UserGraph';
 import Calendar from './Calender';
 
@@ -45,9 +45,9 @@ const Dashboard = () => {
         <div className='mt-1'>
             <div className=' p-2 flex justify-around' >
                 
-            <div className='bg-slate-300 p-2 h-20 w-52 rounded-md text-center flex'>
-                <div className='bg-purple-600 p-2 rounded-md'>
-                <ImageIcon />
+            <div className='bg-slate-300 p-2  w-52 rounded-md text-center flex'>
+                <div className=' '>
+                <GalleryIcon />
                 </div>
                 <div className='flex flex-col'>
                 <div className='ms-3 mt-2'>
@@ -88,7 +88,23 @@ const Dashboard = () => {
                     </div>
                     </div>
                 
-                </div>       
+                </div>  
+
+                 <div className='bg-slate-300 h-20 w-64  flex p-2 rounded-md text-center'>
+                    <div className='bg-sky-500 p-2 rounded-md'>
+                        <KidsIcon />
+                    </div>
+
+                    <div className='ms-3 mt-2'>
+                    <div>
+                    Admission Request
+                    </div>
+                    <div className='font-bold text-2xl'>
+                   0
+                    </div>
+                    </div>
+                
+                </div>        
               </div>
 
               <div className='flex flex-row gap-4 mt-4'>
